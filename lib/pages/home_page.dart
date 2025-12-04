@@ -1,41 +1,54 @@
-import 'package:app_drop/model/page_model.dart';
 import 'package:app_drop/services/jsondata_loader.dart';
-import 'package:app_drop/widgets/page_rendering.dart' show PageRenderer;
+import 'package:app_drop/widgets/page_rendering.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget{
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
   @override
-  State<HomePage>createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
-  late Future<PageModel?> _pageFuture;
+class _HomePageState extends State<HomePage> {
+  late JsonLoader loader;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    _pageFuture = JsonDataLoader.loadFromAssets('assets/sample.json');
+    loader = Provider.of<JsonLoader>(context, listen: false);
+    // Load sample JSON shipped with the app (assets/sample_page.json)
+    Future.microtask(() => loader.loadFromAssets('assets/sample_page.json'));
   }
+
   @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dynamic Renderer — AppDrop')),
-      body: FutureBuilder<PageModel?>(
-        future:_pageFuture,
-        builder:(context,snapshot){
-          if(snapshot.connectionState==ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if(snapshot.hasError){
-            return Center(child:Text('Error:${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data == null){
-            return const Center(child: Text('Failed to load page.'));
-          }
-          return PageRenderer(page: snapshot.data!);
-        },
-      ),
-    );
+  Widget build(BuildContext context) {
+    return Consumer<JsonLoader>(builder: (context, loader, _) {
+      if (loader.isLoading) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      if (loader.errorMessage != null) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Dynamic Renderer')),
+          body: Center(child: Text('Error: ${loader.errorMessage}')),
+        );
+      }
+
+      final page = loader.pageModel;
+      if (page == null) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Dynamic Renderer')),
+          body: const Center(child: Text('No page loaded')),
+        );
+      }
+
+      return Scaffold(
+        appBar: AppBar(title: const Text('Dynamic Renderer — AppDrop')),
+        body: PageRenderer(page: page),
+      );
+    });
   }
 }
