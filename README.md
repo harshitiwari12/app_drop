@@ -41,7 +41,13 @@ lib/
     └── video_widget.dart
 
 ```
-
+## Dependencies
+- `cupertino_icons`
+- `carousel_slider`
+- `video_player`
+- `http`
+- `provider`
+- `cached_network_image`
 
 ## How to run (quick)
 1. Create a Flutter project: `flutter create appdrop_dynamic`.
