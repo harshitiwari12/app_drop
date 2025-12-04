@@ -1,0 +1,52 @@
+
+{
+  "page": {
+    "components": [
+      {
+        "type": "banner",
+        "image": "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg",
+        "height": 180,
+        "padding": 8,
+        "radius": 12
+      },
+      {
+        "type": "carousel",
+        "images": [
+          "https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg",
+          "https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg"
+        ],
+        "height": 220,
+        "autoPlay": true,
+        "padding": 12
+      },
+      {
+        "type": "text",
+        "value": "Featured Products",
+        "size": 20,
+        "weight": "bold",
+        "align": "center",
+        "padding": 12
+      },
+      {
+        "type": "grid",
+        "images": [
+          "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+          "https://images.pexels.com/photos/279607/pexels-photo-279607.jpeg",
+          "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg",
+          "https://images.pexels.com/photos/212942/pexels-photo-212942.jpeg"
+        ],
+        "columns": 2,
+        "spacing": 8,
+        "padding": 12
+      },
+      {
+        "type": "video",
+        "url": "https://samplelib.com/lib/preview/mp4/sample-5s.mp4",
+        "autoPlay": false,
+        "loop": false,
+        "height": 200,
+        "padding": 12
+      }
+    ]
+  }
+}
